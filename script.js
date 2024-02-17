@@ -152,3 +152,53 @@ Use the .remove() method of the output variable's classList property to remove t
 output.classList.remove('hide');
 
 }
+
+function getCaloriesFromInputs(list) {
+  let calories = 0;
+
+  for (const item of list) {
+    const currVal = cleanInputString(item.value);
+    const invalidInputMatch = isInvalidInput(currVal);
+
+    if (invalidInputMatch) {
+      alert(`Invalid Input: ${invalidInputMatch[0]}`);
+      isError = true;
+      return null;
+    }
+    calories += Number(currVal);
+  }
+  return calories;
+}
+
+/*
+Remember that document.querySelectorAll returns a NodeList, which is array-like but is not an array. However, the Array object has a .from() method that accepts an array-like and returns an array. This is helpful when you want access to more robust array methods, which you will learn about in a future project.
+
+The following example takes a NodeList of li elements and converts it to an array of li elements:
+
+<ul>
+  <li>List 1</li>
+  <li>List 2</li>
+  <li>List 3</li>
+</ul>
+const listItemsArray = Array.from(document.querySelectorAll('li'));
+
+console.log(listItemsArray); //Output: (3) [li, li, li]
+Wrap your inputContainers query selector in Array.from(). Do this on the same line as your declaration.
+*/
+
+function clearForm() {
+  const inputContainers = Array.from(document.querySelectorAll('.input-container'));
+  for (const container of inputContainers) {
+    container.innerHTML = '';
+  }  // This will clear all of the contents of that input container.
+
+  budgetNumberInput.value = '';
+  output.innerText=''; // The difference between innerText and innerHTML is that innerText will not render HTML elements, but will display the tags and content as raw text.
+  output.classList.add('hide'); //restore the hide class to the output element
+
+
+}
+
+//add 2 more event listeres and how they behave
+calorieCounter.addEventListener("submit", calculateCalories);
+clearButton.addEventListener('click', clearForm);
