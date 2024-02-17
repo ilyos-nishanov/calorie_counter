@@ -24,30 +24,17 @@ function addEntry() {
   <input type="text" id="${entryDropdown.value}-${entryNumber}-name" placeholder="Name" />`;
   <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>`;
   
-  /* Step 49
+  /*
+Step 53
 
-To see your new HTML content for the targetInputContainer, you will need to use the innerHTML property.
+The insertAdjacentHtml method takes two arguments. The first argument is a string that specifies the position of the inserted element. The second argument is a string containing the HTML to be inserted.
 
-The innerHTML property sets or returns the HTML content inside an element.
+For the first argument, pass the string beforeend to insert the new element as the last child of targetInputContainer.
 
-Here is a form element with a label and input element nested inside.
-
-<form id="form">
-  <label for="first-name">First name</label>
-  <input id="first-name" type="text">
-</form>
-If you want to add another label and input element inside the form, then you can use the innerHTML property as shown below:
-
-const formElement = document.getElementById("form");
-const formContent = `
-  <label for="last-name">Last name</label>
-  <input id="last-name" type="text">
-`;
-formElement.innerHTML += formContent;
-Use the addition assignment operator += to append your HTMLString variable to targetInputContainer.innerHTML.
+For the second argument, pass your HTMLString variable.
 */
 
-targetInputContainer.innerHTML += HTMLString;
+targetInputContainer.insertAdjacentHTML('beforeend', HTMLString);
 }
 
 /**
@@ -71,13 +58,4 @@ Note that you should not call addEntry, but pass the variable (or function refer
  */
 
 addEntryButton.addEventListener("click", addEntry);
-
-/*
-Step 52
-
-Your other bug occurs if you add a Breakfast entry, fill it in, then add a second Breakfast entry. You'll see that the values you added disappeared.
-
-This is because you are updating innerHTML directly, which does not preserve your input content. Change your innerHTML assignment to use the insertAdjacentHTML()
-method of targetInputContainer instead. Do not pass any arguments yet.
-*/
 
