@@ -20,8 +20,8 @@ function addEntry() {
   const targetInputContainer = document.querySelector(`#${entryDropdown.value} .input-container`);
   const entryNumber = targetInputContainer.querySelectorAll('input[type="text"]').length;
   const HTMLString = `
-  <label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>`;
-  <input type="text" id="${entryDropdown.value}-${entryNumber}-name" placeholder="Name" />`;
+  <label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>;
+  <input type="text" id="${entryDropdown.value}-${entryNumber}-name" placeholder="Name" />;
   <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>`;
   
   /*
@@ -59,3 +59,96 @@ Note that you should not call addEntry, but pass the variable (or function refer
 
 addEntryButton.addEventListener("click", addEntry);
 
+/*
+Step 56
+
+The list parameter is going to be the result of a query selector, which will return a NodeList. A NodeList is a list of elements like an array.
+It contains the elements that match the query selector. You will need to loop through these elements in the list.
+
+In previous steps, you learned how to loop through an array using a for loop. You can also use a for...of loop to loop through an array and a NodeList.
+
+A for...of loop is used to iterate over elements in an iterable object like an array. The variable declared in the loop represents the current element being iterated over.
+
+for (const element of elementArray) {
+  console.log(element);
+}
+Create a for...of loop that loops through the list. For the loop's variable name, use const to declare a variable called item.
+*/
+
+function getCaloriesFromInputs(list) {
+  let calories = 0;
+  for (const item of list) {
+
+    /*
+
+    Step 57
+
+The NodeList values you will pass to list will consist of input elements. So you will want to look at the value attribute of each element.
+
+Assign item.value to a const variable called currVal.
+
+    */
+    const currVal = item.value;    
+  }
+
+}
+
+
+function calculateCalories(e) {
+  e.preventDefault();
+  isError = false;
+
+  const breakfastNumberInputs = document.querySelectorAll('#breakfast input[type=number]');
+  const lunchNumberInputs = document.querySelectorAll('#lunch input[type=number]');
+  const dinnerNumberInputs = document.querySelectorAll('#dinner input[type=number]');
+  const snacksNumberInputs = document.querySelectorAll('#snacks input[type=number]');
+  const exerciseNumberInputs = document.querySelectorAll('#exercise input[type=number]');
+
+  const breakfastCalories = getCaloriesFromInputs(breakfastNumberInputs);
+  const lunchCalories = getCaloriesFromInputs(lunchNumberInputs);
+  const dinnerCalories = getCaloriesFromInputs(dinnerNumberInputs);
+  const snacksCalories = getCaloriesFromInputs(snacksNumberInputs);
+  const exerciseCalories = getCaloriesFromInputs(exerciseNumberInputs);
+
+/*
+Step 73
+
+You also need to get the value of your #budget input. You already queried this at the top of your code, and set it to the budgetNumberInput variable. However, you used getElementById, which returns an Element, not a NodeList.
+
+A NodeList is an array-like, which means you can iterate through it and it shares some common methods with an array. For your getCaloriesFromInputs function, an array will work for the argument just as well as a NodeList does.
+
+Declare a budgetCalories variable and set it to the result of calling getCaloriesFromInputs – pass an array containing your budgetNumberInput as the argument.
+
+*/
+
+const budgetCalories = getCaloriesFromInputs([budgetNumberInput]);
+
+if (isError) {
+  return;
+}
+
+const consumedCalories = breakfastCalories + lunchCalories + dinnerCalories + snacksCalories;
+const remainingCalories = budgetCalories - consumedCalories + exerciseCalories;
+const surplusOrDeficit = remainingCalories < 0 ? 'Surplus' : 'Deficit';
+output.innerHTML = `
+<span class="${surplusOrDeficit.toLowerCase()}">${Math.abs(remainingCalories)} Calorie ${surplusOrDeficit}</span>
+<hr>
+<p>${budgetCalories} Calories Budgeted</p>
+<p>${consumedCalories} Calories Consumed</p>
+<p>${exerciseCalories} Calories Burned</p>
+`;
+
+
+/*
+Step 85
+
+Finally, you need to make the #output element visible so the user can see your text. Your output variable is an Element, which has a classList property. This property has a .remove() method, which accepts a string representing the class to remove from the element.
+
+const paragraphElement = document.getElementById('paragraph');
+paragraphElement.classList.remove('hide');
+Use the .remove() method of the output variable's classList property to remove the hide class. Don't forget to place the word hide inside quotes.
+*/
+
+output.classList.remove('hide');
+
+}
